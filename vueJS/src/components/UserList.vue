@@ -1,7 +1,7 @@
 <template>
     <div id="UserList">
         <v-list subheader>
-            <v-subheader>Recent chat</v-subheader>
+            <v-subheader>Recent chats</v-subheader>
             <v-list-tile
             v-for="channel in channels"
             :key="channel.name"
@@ -37,8 +37,7 @@ export default {
     },
     methods: {
         changeChanel(channelId){
-            this.$store.commit('selectChanel',channelId
-        );
+            this.$store.commit('selectChanel',channelId);
         }
     },
     computed:{

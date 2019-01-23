@@ -16,12 +16,12 @@ export default new Vuex.Store({
             {
                 id:"2",
                 name:"Test1",
-                avatar:require("./assets/images/avatar.jpg")
+                avatar:require("./assets/images/avatar2.jpg")
             },
             {
                 id:"3",
                 name:"Test2",
-                avatar:require("./assets/images/avatar.jpg")
+                avatar:require("./assets/images/avatar3.jpg")
             }
         ],
         channels:[
@@ -53,7 +53,7 @@ export default new Vuex.Store({
                     }
                 ]
             },{
-                id:"1",
+                id:"2",
                 name:"Test2 Chat",
                 unreadMessages:true,
                 loadingMessages:false,
@@ -65,6 +65,10 @@ export default new Vuex.Store({
                     {
                         cipherMessage:"Hallo",
                         userId:"1"
+                    },
+                    {
+                        cipherMessage:"Hallo",
+                        userId:"3"
                     }
                 ]
             }
@@ -72,8 +76,17 @@ export default new Vuex.Store({
 
     },
     mutations: {
-        selectChanel(state,chanelId) {
-            state.currentChannelId = chanelId;
+        selectChanel(state,channelId) {
+            state.currentChannelId = channelId;
+            state.channels.find(channel => channel.id === channelId).unreadMessages = false;
+        },
+        sendMessage(state,message) {
+            console.log(message);
+            state.channels.find(channel => channel.id === state.currentChannelId).messages.push(
+                {
+                    cipherMessage:message,
+                    userId:state.userId
+                });
         }
     },
     actions: {
