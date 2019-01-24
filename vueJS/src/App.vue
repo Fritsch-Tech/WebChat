@@ -12,14 +12,14 @@
             <v-container grid-list-md fluid fill-height>
                 <v-layout row justify-center>
                     <v-flex fill-height xs4 sm4 lg3>
-                        <v-card height="100%" color="dark" dark>
+                        <v-sheet height="100%" color="dark" dark>
                             <UserList/>
-                        </v-card>
+                        </v-sheet>
                     </v-flex>
                     <v-flex fill-height xs8 sm8 lg6>
-                        <v-card height="100%" color="dark" dark>
+                        <v-sheet height="100%" color="dark" dark>
                             <Chat/>
-                        </v-card>
+                        </v-sheet>
                     </v-flex>
                 </v-layout>
             </v-container>

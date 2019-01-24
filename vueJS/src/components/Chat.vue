@@ -1,12 +1,18 @@
 <template>
     <div id="Chat" height="100%">
-        <v-card id="Messages" max-height="600px" style="overflow-y:scroll">
-            <v-list two-line subheader>
-                <v-subheader inset>
-                    {{channels.find(channel =>
-                        channel.id === currentChannelId).name}}
-                </v-subheader>
-
+        <v-toolbar>
+            <v-toolbar-title>
+                {{channels.find(channel =>
+                    channel.id === currentChannelId).name}}
+            </v-toolbar-title>
+        </v-toolbar>
+        <v-sheet
+            id="Messages"
+            v-chat-scroll
+            min-height="550px"
+            max-height="550px"
+            style="overflow-y:scroll">
+            <v-list two-line>
                 <v-list-tile
                 v-for="message in channels.find(channel =>
                     channel.id === currentChannelId).messages"
@@ -26,10 +32,9 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
-        </v-card>
+        </v-sheet>
 
         <v-btn v-on:click="sendMessage()">Send</v-btn>
-        <v-btn v-on:click="scroll()">scroll To bottom</v-btn>
         <v-textarea
             align-end justify-end
             background-color="grey darken-2"
@@ -60,11 +65,8 @@ export default {
                 this.input.message = '';
                 var messages = this.$el.querySelector("#Messages");
                 messages.scrollTop = messages.clientHeight;
+                //this.scrollToBottom();
             }
-        },
-        scroll(){
-            var messages = this.$el.querySelector("#Messages");
-            messages.scrollTop = messages.clientHeight;
         }
     },
     computed:{
@@ -81,6 +83,5 @@ export default {
             return this.$store.state.userId;
         }
     }
-
 }
 </script>

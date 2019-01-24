@@ -1,7 +1,10 @@
 <template>
     <div id="UserList">
-        <v-list subheader>
-            <v-subheader>Recent chats</v-subheader>
+        <v-toolbar>
+            <v-toolbar-side-icon></v-toolbar-side-icon>
+            <v-toolbar-title>Chats</v-toolbar-title>
+        </v-toolbar>
+        <v-list>
             <v-list-tile
             v-for="channel in channels"
             :key="channel.name"

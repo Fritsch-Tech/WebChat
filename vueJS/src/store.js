@@ -50,6 +50,54 @@ export default new Vuex.Store({
                     {
                         cipherMessage:"Hallo3",
                         userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo1",
+                        userId:"1"
+                    },
+                    {
+                        cipherMessage:"Hallo2",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo3",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo1",
+                        userId:"1"
+                    },
+                    {
+                        cipherMessage:"Hallo2",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo3",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo1",
+                        userId:"1"
+                    },
+                    {
+                        cipherMessage:"Hallo2",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo3",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo1",
+                        userId:"1"
+                    },
+                    {
+                        cipherMessage:"Hallo2",
+                        userId:"2"
+                    },
+                    {
+                        cipherMessage:"Hallo3",
+                        userId:"2"
                     }
                 ]
             },{

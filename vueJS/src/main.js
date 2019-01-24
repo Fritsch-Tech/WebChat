@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import './plugins/axios'
+import './plugins/vue-chat-scroll'
 import App from './App.vue'
 import store from './store'
 
