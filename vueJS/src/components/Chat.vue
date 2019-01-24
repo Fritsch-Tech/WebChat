@@ -1,6 +1,13 @@
 <template>
     <div id="Chat" height="100%">
         <v-toolbar>
+            <v-avatar
+                :size="38">
+                <img :src="
+                users.find(user => user.id ===
+                        channels.find(channel => channel.id === currentChannelId)
+                    .userIds.find(id => id !== userId)).avatar">
+            </v-avatar>
             <v-toolbar-title>
                 {{channels.find(channel =>
                     channel.id === currentChannelId).name}}
