@@ -7,6 +7,8 @@ export default new Vuex.Store({
     state: {
         userId:"1",
         currentChannelId:"1",
+        loadChannels:false,
+        loadChat:false,
         users:[
             {
                 id:"1",
@@ -119,6 +121,237 @@ export default new Vuex.Store({
                         userId:"3"
                     }
                 ]
+            },{
+                id:"3",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"4",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"5",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"6",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"7",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"8",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"9",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"10",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"11",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"12",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"13",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"14",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"15",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"16",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"17",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"18",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"19",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"20",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"21",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"22",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
+            },{
+                id:"23",
+                name:"Test2 Chat",
+                unreadMessages:true,
+                loadingMessages:false,
+                userIds:[
+                    "1",
+                    "3"
+                ],
+                messages:[
+                ]
             }
         ]
 
@@ -135,9 +368,40 @@ export default new Vuex.Store({
                     cipherMessage:message,
                     userId:state.userId
                 });
-        }
+        },
+        loadUser(userId){
+            global.axiosInstance.get("/users/"+userId)
+              .then((response)  =>  {
+                state.users = state.users.filter(
+                    user => user.id !== userId);
+                state.users.push(response.data);
+            }, (error)  =>  {
+                console.log(error);
+            });
+        },
+        loadChannel(channelId){
+            global.axiosInstance.get("/channels/"+channelId)
+              .then((response)  =>  {
+                state.channels = channels.users.filter(
+                    channel => channel.id !== channelId);
+                state.channels.push(response.data);
+            }, (error)  =>  {
+                console.log(error);
+            });
+        },
+        loadChannels(){
+            this.state.loadChannels = true;
+            global.axiosInstance.get("/channels"+"?selfId=1")
+              .then((response)  =>  {
+                this.state.loadChannels = false;
+                this.state.channels = response.data;
+            }, (error)  =>  {
+                console.log(error);
+                this.state.loadChannels = false;
+            });
+        },
+
     },
     actions: {
-
     }
 })

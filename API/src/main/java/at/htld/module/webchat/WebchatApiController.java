@@ -2,51 +2,104 @@ package at.htld.module.webchat;
 
 import at.htld.module.webchat.entity.Channel;
 import at.htld.module.webchat.entity.Message;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import at.htld.module.webchat.entity.User;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class WebchatApiController {
-    Map<String, List<Message>> channelMessages = new HashMap<>();
+    List<Channel> channels = new ArrayList<>();
+    List<User> users = new ArrayList<>();
 
-    //"/api/chat/list" all messages from chanel
-    @RequestMapping(value = "/chat/{id}", method = GET)
-    public List<Message> getChanelMessage(@PathVariable("id") String channelId){
 
-        return channelMessages.get(channelId);
+    //"/channels/{id}" Get Channel
+    @RequestMapping(value = "/channels/{id}", method = GET)
+    public Channel getChannel(@PathVariable("id") String channelId){
+
+        return getChanelById(channelId);
+    }
+
+    //"/channels" Get Channels
+    @RequestMapping(value = "/channels", method = GET)
+    public List getChannels(@RequestParam String selfId){
+        List<Channel> returnChannels = new ArrayList<>();
+
+        for(Channel channel: channels){
+            if(channel.getUsers().contains(selfId)){
+                returnChannels.add(channel);
+            }
+        }
+        return returnChannels;
+
     }
 
 
-    //"/api/chat/add"
-    @RequestMapping(value = "/chat/{id}", method = POST)
+    //"/channels" Create Channel
+    @RequestMapping(value = "/channels", method = POST)
+    public Channel addChannel(  @RequestParam String selfId,
+                                @NotNull @RequestBody String channelName,
+                                @NotNull @RequestBody  String userId){
+
+        List<String> users = new ArrayList<>();
+        users.add(userId);
+        users.add(selfId);
+        Channel channel = new Channel(channelName,users);
+        channels.add(channel);
+        return channel;
+    }
+
+    //"/channels/{id}" Create Message
+    @RequestMapping(value = "/channels/{id}", method = POST)
     public Message addMessage(  @PathVariable("id") String channelId,
-                                @RequestParam String channelName,
-                                @RequestParam String cipherMessage){
+                                @NotNull @RequestBody  String messageContent,
+                                @NotNull @RequestBody  String userId){
 
+        Message message = new Message(messageContent,getUserById(userId));
+        getChanelById(channelId).addMessage(message);
 
-        List<Message> messages = channelMessages.get(channelId);
-        if(messages == null){
-            messages = new ArrayList<>();
-            channelMessages.put(channelId, messages);
-        }
-
-        Message message = new Message();
-        messages.add(message);
-        Channel channel = new Channel();
-        channel.setName(channelName);
-        channel.setId(channelId);
-        message.setChannel(channel);
-        message.setCipherMessage(cipherMessage);
         return message;
+    }
+
+    //"/user/{id}" Get User
+    @RequestMapping(value = "/user/{id}", method = GET)
+    public User getUser(@PathVariable("id") String userId){
+
+        return getUserById(userId);
+    }
+
+    //"/chat" Create Channel
+    @RequestMapping(value = "/channels", method = POST)
+    public User addUser(@NotNull @RequestBody    String userName,
+                        @NotNull @RequestBody    String password,
+                        @NotNull @RequestBody    Image avatar){
+
+        User user = new User(userName,password,avatar);
+        users.add(user);
+        return user;
+    }
+
+    private Channel getChanelById(String id){
+        for(Channel channel: channels){
+            if(channel.getId().equals(id)){
+                return channel;
+            }
+        }
+        return null;
+    }
+
+    private User getUserById(String id){
+        for(User user: users){
+            if(user.getId().equals(id)){
+                return user;
+            }
+        }
+        return null;
     }
 }
