@@ -1,6 +1,6 @@
 <template>
     <div id="Chat" height="100%">
-        <v-toolbar>
+        <v-toolbar dense>
             <v-avatar
                 v-if="channels.length !== 0"
                 :size="40">

@@ -55,8 +55,8 @@ public class WebchatApiController {
         return channel;
     }
 
-    //"/channels/{id}" Create Message
-    @RequestMapping(value = "/channels/{id}", method = POST)
+    //"/channels/{id}/messages" Create Message
+    @RequestMapping(value = "/channels/{id}/messages", method = POST)
     public Message addMessage(  @PathVariable("id") String channelId,
                                 @NotNull @RequestBody  String messageContent,
                                 @NotNull @RequestBody  String userId){
@@ -67,6 +67,15 @@ public class WebchatApiController {
         return message;
     }
 
+    //"/channels/{id}/messages" Get Channels
+    @RequestMapping(value = "/channels/{id}/messages", method = GET)
+    public List getMessages(@PathVariable("id") String channelId){
+
+
+        return getChanelById(channelId).getMessages();
+
+    }
+
     //"/user/{id}" Get User
     @RequestMapping(value = "/user/{id}", method = GET)
     public User getUser(@PathVariable("id") String userId){
@@ -74,13 +83,14 @@ public class WebchatApiController {
         return getUserById(userId);
     }
 
-    //"/chat" Create Channel
-    @RequestMapping(value = "/channels", method = POST)
+    //"/user" Create User
+    @RequestMapping(value = "/user", method = POST)
     public User addUser(@NotNull @RequestBody    String userName,
+                        @NotNull @RequestBody    String email,
                         @NotNull @RequestBody    String password,
                         @NotNull @RequestBody    Image avatar){
 
-        User user = new User(userName,password,avatar);
+        User user = new User(userName,email,password,avatar);
         users.add(user);
         return user;
     }

@@ -379,25 +379,33 @@ export default new Vuex.Store({
                 console.log(error);
             });
         },
-        loadChannel(channelId){
-            global.axiosInstance.get("/channels/"+channelId)
-              .then((response)  =>  {
-                state.channels = channels.users.filter(
-                    channel => channel.id !== channelId);
-                state.channels.push(response.data);
-            }, (error)  =>  {
-                console.log(error);
-            });
-        },
         loadChannels(){
             this.state.loadChannels = true;
             global.axiosInstance.get("/channels"+"?selfId=1")
               .then((response)  =>  {
-                this.state.loadChannels = false;
-                this.state.channels = response.data;
+                state.loadChannels = false;
+                state.channels = response.data;
+                state.channels.forEach(
+                    function(channel)
+                        { channel.loadingMessages = "false"; });
             }, (error)  =>  {
                 console.log(error);
                 this.state.loadChannels = false;
+            });
+        },
+        loadMessages(channelId){
+            state.channels.find(
+                channel => channel.id === channelId).loadingMessages = true;
+            global.axiosInstance.get("/channels/"+channelId+"/messages"+"?selfId=1")
+              .then((response)  =>  {
+                  state.channels.find(
+                      channel => channel.id === channelId).loadingMessages = false;
+                  state.channels.find(
+                      channel => channel.id === channelId).messages.push(...response.data);
+            }, (error)  =>  {
+                console.log(error);
+                state.channels.find(
+                    channel => channel.id === channelId).loadingMessages = false;
             });
         },
 

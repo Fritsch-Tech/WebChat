@@ -6,11 +6,13 @@ public class User {
     public String id;
 
     public String name;
+    public String email;
     public String hash;
     public Image avatar;
 
-    public User(String name,String password,Image avatar) {
+    public User(String name,String email,String password,Image avatar) {
         this.name = name;
+        this.email = email;
         this.hash = password;
         this.avatar = avatar;
     }

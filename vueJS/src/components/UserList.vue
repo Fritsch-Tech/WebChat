@@ -1,6 +1,6 @@
 <template>
     <div id="UserList">
-        <v-toolbar>
+        <v-toolbar dense>
             <v-toolbar-side-icon></v-toolbar-side-icon>
             <v-toolbar-title>Chats</v-toolbar-title>
         </v-toolbar>

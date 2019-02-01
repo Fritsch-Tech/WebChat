@@ -1,0 +1,30 @@
+{
+    "name":"Admin",
+    "email":"admin@admin.at",
+    "password":"Root1234",
+    "avatar":null
+},
+{
+    "name":"Test",
+    "email":"test@test.at",
+    "password":"Root1234",
+    "avatar":null
+},
+{
+    "name":"Test1",
+    "email":"test@test1.at",
+    "password":"Root1234",
+    "avatar":null
+},
+{
+    "name":"Test2",
+    "email":"test@test2.at",
+    "password":"Root1234",
+    "avatar":null
+},
+{
+    "name":"Test3",
+    "email":"test@test3.at",
+    "password":"Root1234",
+    "avatar":null
+}

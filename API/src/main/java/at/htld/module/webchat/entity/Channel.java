@@ -46,6 +46,11 @@ public class Channel {
         this.users.remove(user);
     }
 
+    public List getMessages() {
+        return messages;
+    }
+
+
     public void addMessage(Message message) {
         this.messages.add(message);
         unreadMessages = true;
