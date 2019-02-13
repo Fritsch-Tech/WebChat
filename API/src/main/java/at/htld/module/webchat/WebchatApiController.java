@@ -3,40 +3,43 @@ package at.htld.module.webchat;
 import at.htld.module.webchat.entity.Channel;
 import at.htld.module.webchat.entity.Message;
 import at.htld.module.webchat.entity.User;
+import at.htld.module.webchat.repositorys.ChannelRepository;
+import at.htld.module.webchat.repositorys.MessageRepository;
+import at.htld.module.webchat.repositorys.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 public class WebchatApiController {
-    List<Channel> channels = new ArrayList<>();
-    List<User> users = new ArrayList<>();
+
+    @Autowired
+    private UserRepository userRepository;
+    private ChannelRepository channelRepository;
+    private MessageRepository messageRepository;
 
 
     //"/channels/{id}" Get Channel
     @RequestMapping(value = "/channels/{id}", method = GET)
-    public Channel getChannel(@PathVariable("id") String channelId){
+    public Optional<Channel> getChannel(@PathVariable("id") String channelId){
 
-        return getChanelById(channelId);
+        return channelRepository.findById(channelId);
     }
 
     //"/channels" Get Channels
     @RequestMapping(value = "/channels", method = GET)
-    public List getChannels(@RequestParam String selfId){
-        List<Channel> returnChannels = new ArrayList<>();
+    public Optional getChannels(@RequestParam String selfId){
 
-        for(Channel channel: channels){
-            if(channel.getUsers().contains(selfId)){
-                returnChannels.add(channel);
-            }
-        }
-        return returnChannels;
+        return channelRepository.findByUserId(selfId);
 
     }
 
@@ -51,7 +54,7 @@ public class WebchatApiController {
         users.add(userId);
         users.add(selfId);
         Channel channel = new Channel(channelName,users);
-        channels.add(channel);
+        channelRepository.save(channel);
         return channel;
     }
 
@@ -61,55 +64,39 @@ public class WebchatApiController {
                                 @NotNull @RequestBody  String messageContent,
                                 @NotNull @RequestBody  String userId){
 
-        Message message = new Message(messageContent,getUserById(userId));
-        getChanelById(channelId).addMessage(message);
+        Message message = new Message(messageContent,userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found")));
+
+        channelRepository.findById(channelId).orElseThrow(() -> new IllegalArgumentException("Channel not found")).addMessage(message);
 
         return message;
     }
 
-    //"/channels/{id}/messages" Get Channels
+    //"/channels/{id}/messages" Get Messages
     @RequestMapping(value = "/channels/{id}/messages", method = GET)
-    public List getMessages(@PathVariable("id") String channelId){
+    public Optional getMessages(@PathVariable("id") String channelId){
 
-
-        return getChanelById(channelId).getMessages();
+        Optional channel = channelRepository.findById(channelId);
+        return channelRepository.findById(channelId);
 
     }
 
-    //"/user/{id}" Get User
-    @RequestMapping(value = "/user/{id}", method = GET)
-    public User getUser(@PathVariable("id") String userId){
+    //"/users/{id}" Get User
+    @RequestMapping(value = "/users/{id}", method = GET)
+    public Optional<User> getUser(@PathVariable("id") String userId){
 
-        return getUserById(userId);
+        return userRepository.findById(userId);
     }
 
-    //"/user" Create User
-    @RequestMapping(value = "/user", method = POST)
-    public User addUser(@NotNull @RequestBody    String userName,
+    //"/users" Create User
+    @RequestMapping(value = "/users", method = POST)
+    public User addUser(@NotNull @RequestBody    String username,
                         @NotNull @RequestBody    String email,
                         @NotNull @RequestBody    String password,
-                        @NotNull @RequestBody    Image avatar){
+                                 @RequestBody    Image avatar){
 
-        User user = new User(userName,email,password,avatar);
-        users.add(user);
+        User user = new User(username,email,password,avatar);
+        userRepository.save(user);
         return user;
     }
 
-    private Channel getChanelById(String id){
-        for(Channel channel: channels){
-            if(channel.getId().equals(id)){
-                return channel;
-            }
-        }
-        return null;
-    }
-
-    private User getUserById(String id){
-        for(User user: users){
-            if(user.getId().equals(id)){
-                return user;
-            }
-        }
-        return null;
-    }
 }

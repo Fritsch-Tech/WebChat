@@ -23,9 +23,14 @@
                 :key="channel.id"
                 avatar
                 @click="changeChanel(channel.id)">
-                    <v-list-tile-avatar>
-                        <img :src="users.find(user => user.id ===
-                            channel.userIds.find(id => id !== userId)).avatar">
+                    <v-list-tile-avatar color="teal">
+                        <img v-if=" users.find(user => user.id ===
+                            channel.userIds.find(id => id !== userId)).avatar"
+                             :src="users.find(user => user.id ===
+                             channel.userIds.find(id => id !== userId)).avatar">
+                        <span v-else class="white--text headline">
+                            {{getInitales(channel.name)}}
+                        </span>
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
@@ -63,6 +68,9 @@ export default {
     methods: {
         changeChanel(channelId){
             this.$store.commit('selectChanel',channelId);
+        },
+        getInitales(name){
+            return name.split(" ").map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join("");
         }
     },
     computed:{

@@ -23,13 +23,13 @@ export default new Vuex.Store({
             {
                 id:"3",
                 name:"Test2",
-                avatar:require("./assets/images/avatar3.jpg")
+                avatar:null//require("./assets/images/avatar3.jpg")
             }
         ],
         channels:[
             {
                 id:"1",
-                name:"Test1 Chat",
+                name:"Peter Müller",
                 unreadMessages:false,
                 loadingMessages:false,
                 userIds:[
@@ -104,7 +104,7 @@ export default new Vuex.Store({
                 ]
             },{
                 id:"2",
-                name:"Test2 Chat",
+                name:"Harald Peter Fischer",
                 unreadMessages:true,
                 loadingMessages:false,
                 userIds:[
@@ -123,7 +123,7 @@ export default new Vuex.Store({
                 ]
             },{
                 id:"3",
-                name:"Test2 Chat",
+                name:"Test2",
                 unreadMessages:true,
                 loadingMessages:false,
                 userIds:[

@@ -1,14 +1,19 @@
 package at.htld.module.webchat.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Document(collection = "channels")
 public class Channel {
+    @Id
     private String id;
 
     private String name;
     private Boolean unreadMessages;
-    private List users;
+    private List<User> users;
     private List<Message> messages;
 
     public Channel(String name,List users) {
