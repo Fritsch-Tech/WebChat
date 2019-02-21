@@ -3,11 +3,19 @@
         <v-toolbar dense>
             <v-avatar
                 v-if="channels.length !== 0"
-                :size="40">
-                <img :src="
-                users.find(user => user.id ===
-                        channels.find(channel => channel.id === currentChannelId)
-                    .userIds.find(id => id !== userId)).avatar">
+                :size="40"
+                color="teal">
+                <img v-if=" users.find(user => user.id ===
+                            channels.find(channel => channel.id === currentChannelId)
+                            .userIds.find(id => id !== userId)).avatar"
+                     :src=" users.find(user => user.id ===
+                            channels.find(channel => channel.id === currentChannelId)
+                            .userIds.find(id => id !== userId)).avatar">
+                <span v-else class="white--text headline">
+                    {{getInitales(users.find(user => user.id ===
+                           channels.find(channel => channel.id === currentChannelId)
+                           .userIds.find(id => id !== userId)).name)}}
+                </span>
             </v-avatar>
             <v-toolbar-title>
                 <div v-if="channels.length !== 0">
@@ -34,9 +42,16 @@
                     channel.id === currentChannelId).messages"
                 avatar
                 @click="">
-                    <v-list-tile-avatar>
-                        <img :src="users.find(user =>
-                            user.id === message.userId).avatar">
+                    <v-list-tile-avatar color="teal">
+                        <img
+                            v-if="  users.find(user =>
+                                    user.id === message.userId).avatar"
+                            :src="  users.find(user =>
+                                    user.id === message.userId).avatar">
+                        <span v-else class="white--text headline">
+                            {{getInitales(users.find(user =>
+                                user.id === message.userId).name)}}
+                        </span>
                     </v-list-tile-avatar>
 
                     <v-list-tile-content>
@@ -85,6 +100,9 @@ export default {
         },
         trim(str) {
             return str.replace(/^\s+|\s+$/g, "");
+        },
+        getInitales(name){
+            return name.split(" ").map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join("");
         }
     },
     computed:{
